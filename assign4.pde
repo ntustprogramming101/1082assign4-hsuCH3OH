@@ -49,8 +49,7 @@ int speedX= 6;
 
 boolean demoMode = false;
 
-int [] soilEmptyX = {0,1,2,3,4,5,6,7};
-int [] soilEmptyY = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
+int [] soilEmptyX, soilEmptyY;
 int [][] soilEmpties ;
 
 void setup() {
@@ -174,13 +173,22 @@ void setup() {
   //  soilEmptyY[i] = floor(random(1,24)); 
   //}
   
-  for(int i=0; i<8; i++){
-  int pick = 1+(int)random(2); // randomly get 1 or 2
+  //for(int i=0; i<8; i++){
+  //int pick = 1+(int)random(2); // randomly get 1 or 2
   
-    for(int j=0; j<pick; j++){ // following the picked number, to set X and Y
-      soilEmptyX[j] = floor(random(8));
-      soilEmptyY[j] = floor(random(1,24));
-      
+  //  for(int j=0; j<pick; j++){ // following the picked number, to set X and Y
+  //    soilEmptyX[j] = floor(random(8));
+  //    soilEmptyY[j] = floor(random(1,24));      
+  //  }
+  //}
+  
+  
+  // soil empty
+  for(int y=0; y<24 ;y++){
+    for(int x=0; x <= 1+(int)random(2); x++){
+      int pick = floor(random(8));
+      soilHealth[pick][y] =0;
+      //image(soilEmpty, pick*GRID,y*GRID);
     }
   }
 
@@ -246,22 +254,7 @@ void draw() {
     for(int i=0; i< soilHealth.length; i++){      
       image(stones[0][4], i*GRID, i*GRID);
       soilHealth[i][i] = 30;
-    }
-    //for(int m=0; m< soilEmptyX.length; m++){
-    //  for(int n=0; n< soilEmptyY.length; n++){
-    //    m = floor(random(8));
-    //    n = floor(random(1,24));
-    //    image(soilEmpty, m*GRID, n*GRID);
-    //  }
-    //}
-    
-    //for(int i=0; i< soilEmptyX.length; i++){
-    //  for(int j=0; j< 24; j++){
-    //  image(soilEmpty, soilEmptyX[i]*GRID, soilEmptyY[j]*GRID);
-    //  soilHealth[i][j] =0;
-    //  }
-    //}
-    
+    }    
     
     // layer 9-16
     for(int i=0; i< soilHealth.length ; i++){
@@ -322,15 +315,7 @@ void draw() {
           }
         }
       }
-    }
-    
-    //// Empty soil
-    //for(int i=0; i<soilEmptyX.length; i++){
-    //  for(int j=0; j<soilEmptyY.length; j++){
-    //    image(soilEmpty, soilEmptyX[i]*GRID,soilEmptyY[j]*GRID);
-    //  }
-    //}
-    
+    }    
 
 		// Cabbages
 		// > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
@@ -620,10 +605,24 @@ void draw() {
 				}
 
 				// Initialize soidiers and their position
+        soldier1X = floor(random(0,8))  *SOIL_SIZE;
+        soldier2X = floor(random(0,8))  *SOIL_SIZE;
+        soldier3X = floor(random(0,8))  *SOIL_SIZE;
+        soldier4X = floor(random(0,8))  *SOIL_SIZE;
+        soldier5X = floor(random(0,8))  *SOIL_SIZE;
+        soldier6X = floor(random(0,8))  *SOIL_SIZE;
+        
+        soldier1Y = floor(random(0,4))  *SOIL_SIZE;  
+        soldier2Y = floor(random(4,8))  *SOIL_SIZE;
+        soldier3Y = floor(random(8,12)) *SOIL_SIZE;  
+        soldier4Y = floor(random(12,16))*SOIL_SIZE;
+        soldier5Y = floor(random(16,20))*SOIL_SIZE;  
+        soldier6Y = floor(random(20,24))*SOIL_SIZE;
 
 				// Initialize cabbages and their position
-        for(int i=0; i< CABBAGE_Q; i++){
-          image(cabbage, cabbageX[i], cabbageY[i]);
+        for(int i=0; i< CABBAGE_Q; i++){          
+          cabbageX [i] = (int) random(0,8)*GRID;
+          cabbageY [i] = (int) (Math.random()*24)*GRID;
         }
         				
 			}
