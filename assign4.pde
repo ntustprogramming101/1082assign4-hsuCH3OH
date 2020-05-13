@@ -25,7 +25,7 @@ final int START_BUTTON_HEIGHT = 60;
 final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
 
-float[] cabbageX, cabbageY, soldierX, soldierY;
+float [] cabbageX, cabbageY, soldierX, soldierY;
 float soldierSpeed = 2f;
 
 float playerX, playerY;
@@ -156,17 +156,34 @@ void setup() {
   cabbageY = new float [CABBAGE_Q];
   
   for(int i=0; i< CABBAGE_Q; i++){
-    cabbageX[i] = (int) random(0,8)*GRID;
-    cabbageY[i] = (int) (Math.random()*24)*GRID;
+    cabbageX [i] = (int) random(0,8)*GRID;
+    cabbageY [i] = (int) (Math.random()*24)*GRID;
   }
+  
   
   // soilEmpty
 
   //soilEmptyX = new int [2];
-  //for(int i=0; i<soilEmptyX.length; i++){
+  //for(int i=0; i< soilEmptyX.length; i++){
+  //  i = (int) random(2);
   //  soilEmptyX[i] = floor(random(0,8));
-  //  soilEmptyY[i] =1;
   //}
+    
+  //soilEmptyY = new int [24];
+  //for(int i=0; i< soilEmptyY.length; i++){
+  //  soilEmptyY[i] = floor(random(1,24)); 
+  //}
+  
+  for(int i=0; i<8; i++){
+  int pick = 1+(int)random(2); // randomly get 1 or 2
+  
+    for(int j=0; j<pick; j++){ // following the picked number, to set X and Y
+      soilEmptyX[i] = floor(random(8));
+      
+      image(soilEmpty, soilEmptyX[i]*GRID, 2*GRID);
+      println(soilEmptyX[i] +" , "+ soilEmptyY[i]);
+    }
+  }
 
 }
 
@@ -326,55 +343,74 @@ void draw() {
 
     
     // Soldier
-    //image(soldier, soldier1X, soldier1Y);
-    //image(soldier, soldier2X, soldier2Y);
-    //image(soldier, soldier3X, soldier3Y);
-    //image(soldier, soldier4X, soldier4Y);
-    //image(soldier, soldier5X, soldier5Y);
-    //image(soldier, soldier6X, soldier6Y);
-    //soldier1X +=speedX;
-    //soldier2X +=speedX;
-    //soldier3X +=speedX;
-    //soldier4X +=speedX;
-    //soldier5X +=speedX;
-    //soldier6X +=speedX;
-    //if(soldier1X > width){soldier1X = -100;}
-    //if(soldier2X > width){soldier2X = -100;}
-    //if(soldier3X > width){soldier3X = -100;}
-    //if(soldier4X > width){soldier4X = -100;}
-    //if(soldier5X > width){soldier5X = -100;}
-    //if(soldier6X > width){soldier6X = -100;}
+    image(soldier, soldier1X, soldier1Y);
+    image(soldier, soldier2X, soldier2Y);
+    image(soldier, soldier3X, soldier3Y);
+    image(soldier, soldier4X, soldier4Y);
+    image(soldier, soldier5X, soldier5Y);
+    image(soldier, soldier6X, soldier6Y);
+    soldier1X +=speedX;
+    soldier2X +=speedX;
+    soldier3X +=speedX;
+    soldier4X +=speedX;
+    soldier5X +=speedX;
+    soldier6X +=speedX;
+    if(soldier1X > width){soldier1X = -100;}
+    if(soldier2X > width){soldier2X = -100;}
+    if(soldier3X > width){soldier3X = -100;}
+    if(soldier4X > width){soldier4X = -100;}
+    if(soldier5X > width){soldier5X = -100;}
+    if(soldier6X > width){soldier6X = -100;}
     
-    //if(soldier1X < playerX+80 && soldier1X+80 > playerX && soldier1Y < playerY+80 && soldier1Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
-    //if(soldier2X < playerX+80 && soldier2X+80 > playerX && soldier2Y < playerY+80 && soldier2Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
-    //if(soldier3X < playerX+80 && soldier3X+80 > playerX && soldier3Y < playerY+80 && soldier3Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
-    //if(soldier4X < playerX+80 && soldier4X+80 > playerX && soldier4Y < playerY+80 && soldier4Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
-    //if(soldier5X < playerX+80 && soldier5X+80 > playerX && soldier5Y < playerY+80 && soldier5Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
-    //if(soldier6X < playerX+80 && soldier6X+80 > playerX && soldier6Y < playerY+80 && soldier6Y+80 > playerY){
-    //  playerX = PLAYER_INIT_X;
-    //  playerY = PLAYER_INIT_Y;
-    //  playerHealth --;
-    //}
+    if(soldier1X < playerX+80 && soldier1X+80 > playerX && soldier1Y < playerY+80 && soldier1Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
+    if(soldier2X < playerX+80 && soldier2X+80 > playerX && soldier2Y < playerY+80 && soldier2Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
+    if(soldier3X < playerX+80 && soldier3X+80 > playerX && soldier3Y < playerY+80 && soldier3Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
+    if(soldier4X < playerX+80 && soldier4X+80 > playerX && soldier4Y < playerY+80 && soldier4Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
+    if(soldier5X < playerX+80 && soldier5X+80 > playerX && soldier5Y < playerY+80 && soldier5Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
+    if(soldier6X < playerX+80 && soldier6X+80 > playerX && soldier6Y < playerY+80 && soldier6Y+80 > playerY){
+      playerX = PLAYER_INIT_X;
+      playerY = PLAYER_INIT_Y;
+      playerHealth --;
+      playerCol = (int) (playerX / SOIL_SIZE);
+      playerRow = (int) (playerY / SOIL_SIZE);
+      playerMoveTimer = 0;
+    }
     
     
     //for(int i=0; i< soldierX.length; i++){
