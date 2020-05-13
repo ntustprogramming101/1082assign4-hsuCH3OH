@@ -178,10 +178,9 @@ void setup() {
   int pick = 1+(int)random(2); // randomly get 1 or 2
   
     for(int j=0; j<pick; j++){ // following the picked number, to set X and Y
-      soilEmptyX[i] = floor(random(8));
+      soilEmptyX[j] = floor(random(8));
+      soilEmptyY[j] = floor(random(1,24));
       
-      image(soilEmpty, soilEmptyX[i]*GRID, 2*GRID);
-      println(soilEmptyX[i] +" , "+ soilEmptyY[i]);
     }
   }
 
@@ -263,6 +262,7 @@ void draw() {
     //  }
     //}
     
+    
     // layer 9-16
     for(int i=0; i< soilHealth.length ; i++){
       for(int j=8; j<16 && j>7; j++){
@@ -323,6 +323,14 @@ void draw() {
         }
       }
     }
+    
+    //// Empty soil
+    //for(int i=0; i<soilEmptyX.length; i++){
+    //  for(int j=0; j<soilEmptyY.length; j++){
+    //    image(soilEmpty, soilEmptyX[i]*GRID,soilEmptyY[j]*GRID);
+    //  }
+    //}
+    
 
 		// Cabbages
 		// > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
@@ -410,6 +418,10 @@ void draw() {
       playerCol = (int) (playerX / SOIL_SIZE);
       playerRow = (int) (playerY / SOIL_SIZE);
       playerMoveTimer = 0;
+    }
+    
+    if(playerHealth == 0){
+      gameState = GAME_OVER;
     }
     
     
