@@ -155,8 +155,11 @@ void setup() {
   cabbageY = new float [CABBAGE_Q];
   
   for(int i=0; i< CABBAGE_Q; i++){
-    cabbageX [i] = (int) random(0,8)*GRID;
-    cabbageY [i] = (int) (Math.random()*24)*GRID;
+    for(int j=0; j<= 1+floor(random(1)); j++){ // 1 layer get 1 cabbage
+      int pick = (int)random(4) + i*4; // every kind of soil(4 layers = 1 area) get 1 cabbage
+      cabbageX [i] = (int) random(0,8)*GRID;
+      cabbageY [i] = pick*GRID;
+    }  
   }
   
   
@@ -185,12 +188,10 @@ void setup() {
   
   // soil empty
  
-  for(int x=1; x <= 1+ floor(random(0,2)); x++){
-      int pick = floor(random(0,8));
-      
+  for(int x=1; x <= 1+ floor(random(0,2)); x++){ // 1 layer get 1-2 empty     
     for(int y=1; y<24 ;y++){
-      //int pick = floor(random(0,8));
-      //soilHealth[pick][y] =0;
+      int pick = floor(random(0,8)); // the position of the empty
+      soilHealth[pick][y] =0;
       
       //soilEmptyX[pick] = pick;
       //soilEmptyY[y] = y;
@@ -338,20 +339,14 @@ void draw() {
       }
     }
     
-    //// Empty soil
-    //for(int i=0; i<soilEmptyX.length; i++){
-    //  for(int j=0; j<soilEmptyY.length; j++){
-    //    image(soilEmpty, soilEmptyX[i]*GRID,soilEmptyY[j]*GRID);
-    //  }
-    //}    
-    
-    //image(soilEmpty, X*GRID,Y/GRID);
-    
+    // Empty soil    
     for(int y=1; y<24 ;y++){
-      int pick = floor(random(0,8));
-   
-      //soilHealth[pick][y] =0;
-      image(soilEmpty, pick*GRID, y*GRID);
+      for(int x=0; x<= 1+(int)random(2); x++){
+        int pick = floor(random(0,8));
+     
+        //soilHealth[pick][y] =0;
+        image(soilEmpty, pick*GRID, y*GRID);
+      }  
     }
       
 		// Cabbages
