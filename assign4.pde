@@ -184,10 +184,16 @@ void setup() {
   
   
   // soil empty
-  for(int y=0; y<24 ;y++){
-    for(int x=0; x <= 1+(int)random(2); x++){
-      int pick = floor(random(8));
+ 
+  for(int x=1; x <= 1+ floor(random(0,2)); x++){
+      int pick = floor(random(0,8));
+      
+    for(int y=1; y<24 ;y++){
+      //int pick = floor(random(0,8));
       soilHealth[pick][y] =0;
+      
+      //soilEmptyX[pick] = pick;
+      //soilEmptyY[y] = y;
       //image(soilEmpty, pick*GRID,y*GRID);
     }
   }
@@ -254,9 +260,33 @@ void draw() {
     for(int i=0; i< soilHealth.length; i++){      
       image(stones[0][4], i*GRID, i*GRID);
       soilHealth[i][i] = 30;
-    }    
+    }
+    //for(int m=0; m< soilEmptyX.length; m++){
+    //  for(int n=0; n< soilEmptyY.length; n++){
+    //    m = floor(random(8));
+    //    n = floor(random(1,24));
+    //    image(soilEmpty, m*GRID, n*GRID);
+    //  }
+    //}
     
-    // layer 9-16
+    //for(int i=0; i< soilEmptyX.length; i++){
+    //  for(int j=0; j< 24; j++){
+    //  image(soilEmpty, soilEmptyX[i]*GRID, soilEmptyY[j]*GRID);
+    //  soilHealth[i][j] =0;
+    //  }
+    //}
+    
+    for(int y=1; y<24 ;y++){
+
+     int pick = floor(random(0,8));
+   
+     //soilHealth[pick][y] =0;
+     image(soilEmpty, pick*GRID, y*GRID);
+    }
+     
+   
+     
+     // layer 9-16
     for(int i=0; i< soilHealth.length ; i++){
       for(int j=8; j<16 && j>7; j++){
         if(i%4 ==1 || i%4 ==2){
@@ -315,8 +345,17 @@ void draw() {
           }
         }
       }
-    }    
-
+    }
+    
+    //// Empty soil
+    //for(int i=0; i<soilEmptyX.length; i++){
+    //  for(int j=0; j<soilEmptyY.length; j++){
+    //    image(soilEmpty, soilEmptyX[i]*GRID,soilEmptyY[j]*GRID);
+    //  }
+    //}    
+    
+    //image(soilEmpty, X*GRID,Y/GRID);
+      
 		// Cabbages
 		// > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
     for(int i=0; i< CABBAGE_Q; i++){
@@ -330,6 +369,9 @@ void draw() {
           cabbageX[i] = -100;
           cabbageY[i] = -100;
           playerHealth ++;
+          if(playerHealth >5){
+            playerHealth = 5;
+          }
         }
       }
     }
@@ -405,7 +447,7 @@ void draw() {
       playerMoveTimer = 0;
     }
     
-    if(playerHealth == 0){
+    if(playerHealth <= 0){
       gameState = GAME_OVER;
     }
     
