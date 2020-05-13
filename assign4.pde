@@ -190,7 +190,7 @@ void setup() {
       
     for(int y=1; y<24 ;y++){
       //int pick = floor(random(0,8));
-      soilHealth[pick][y] =0;
+      //soilHealth[pick][y] =0;
       
       //soilEmptyX[pick] = pick;
       //soilEmptyY[y] = y;
@@ -274,19 +274,10 @@ void draw() {
     //  image(soilEmpty, soilEmptyX[i]*GRID, soilEmptyY[j]*GRID);
     //  soilHealth[i][j] =0;
     //  }
-    //}
-    
-    for(int y=1; y<24 ;y++){
-
-     int pick = floor(random(0,8));
-   
-     //soilHealth[pick][y] =0;
-     image(soilEmpty, pick*GRID, y*GRID);
-    }
-     
+    //}   
    
      
-     // layer 9-16
+    // layer 9-16
     for(int i=0; i< soilHealth.length ; i++){
       for(int j=8; j<16 && j>7; j++){
         if(i%4 ==1 || i%4 ==2){
@@ -355,6 +346,13 @@ void draw() {
     //}    
     
     //image(soilEmpty, X*GRID,Y/GRID);
+    
+    for(int y=1; y<24 ;y++){
+      int pick = floor(random(0,8));
+   
+      //soilHealth[pick][y] =0;
+      image(soilEmpty, pick*GRID, y*GRID);
+    }
       
 		// Cabbages
 		// > Remember to check if playerHealth is smaller than PLAYER_MAX_HEALTH!
