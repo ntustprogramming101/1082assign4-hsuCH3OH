@@ -112,6 +112,37 @@ void setup() {
 		for (int j = 0; j < soilHealth[i].length; j++) {
 			// 0: no soil, 15: soil only, 30: 1 stone, 45: 2 stones
 			soilHealth[i][j] = 15;
+
+      // lay 1~8
+      if(j>=0 && j<8){
+        if(i == j) soilHealth[i][j] = 30;
+      }
+      
+      // lay 9~16
+      if(j>=8 && j<16){
+        if((j%4==0 || j%4==3) && (i%4==1 || i%4==2))
+          soilHealth[i][j] = 30;
+        if((j%4==1 || j%4==2) && (i%4==0 || i%4==3))
+          soilHealth[i][j] = 30;
+      }
+      
+      // lay 17~24
+      if (j>=16 && j<24){
+        if(j%3 == 1){
+          if(i%3 != 0) soilHealth[i][j] = 30;
+          if(i%3 == 2) soilHealth[i][j] = 45;
+        }
+        if(j%3 == 2){
+          if(i%3 != 2) soilHealth[i][j] = 30;
+          if(i%3 == 1) soilHealth[i][j] = 45;
+        }
+          
+        if(j%3 == 0){
+          if(i%3 != 1) soilHealth[i][j] = 30;
+          if(i%3 == 0) soilHealth[i][j] = 45;
+        }
+      }
+
 		}
 	}
 
@@ -133,22 +164,6 @@ void setup() {
   soldier4Y = floor(random(12,16))*SOIL_SIZE;
   soldier5Y = floor(random(16,20))*SOIL_SIZE;  
   soldier6Y = floor(random(20,24))*SOIL_SIZE;
-  
-  //soldierX = new float [SOLDIER_Q];
-  //soldierY = new float [SOLDIER_Q];
-  
-  //for(int i=0; i< soldierX.length; i++){
-  //  soldierX[i] = floor(random(8)) *SOIL_SIZE;
-  //}
-  //for(int i=0; i< soldierY.length; i++){
-  //  soldierY[i] = floor(random(0,4)) *SOIL_SIZE;
-  //  soldierY[i] = floor(random(4,8)) *SOIL_SIZE;
-  //  soldierY[i] = floor(random(8,12)) *SOIL_SIZE;
-  //  soldierY[i] = floor(random(12,16)) *SOIL_SIZE;
-  //  soldierY[i] = floor(random(16,20)) *SOIL_SIZE;
-  //  soldierY[i] = floor(random(20,24)) *SOIL_SIZE;
-  //  //soldierY[i] = floor(random(24))*GRID;
-  //}
 
 	// Initialize cabbages and their position
   cabbageX = new float [CABBAGE_Q];
@@ -164,39 +179,11 @@ void setup() {
   
   
   // soilEmpty
-
-  //soilEmptyX = new int [2];
-  //for(int i=0; i< soilEmptyX.length; i++){
-  //  i = (int) random(2);
-  //  soilEmptyX[i] = floor(random(0,8));
-  //}
-    
-  //soilEmptyY = new int [24];
-  //for(int i=0; i< soilEmptyY.length; i++){
-  //  soilEmptyY[i] = floor(random(1,24)); 
-  //}
-  
-  //for(int i=0; i<8; i++){
-  //int pick = 1+(int)random(2); // randomly get 1 or 2
-  
-  //  for(int j=0; j<pick; j++){ // following the picked number, to set X and Y
-  //    soilEmptyX[j] = floor(random(8));
-  //    soilEmptyY[j] = floor(random(1,24));      
-  //  }
-  //}
-  
-  
-  // soil empty
- 
-  for(int x=1; x <= 1+ floor(random(0,2)); x++){ // 1 layer get 1-2 empty     
-    for(int y=1; y<24 ;y++){
-      int pick = floor(random(0,8)); // the position of the empty
-      soilHealth[pick][y] =0;
-      
-      //soilEmptyX[pick] = pick;
-      //soilEmptyY[y] = y;
-      //image(soilEmpty, pick*GRID,y*GRID);
-    }
+  for(int y=1; y<24; y++){
+    int empty1 = (int)random(8);
+    int empty2 = (int)random(8);
+    soilHealth[empty1][y] = 0;
+    soilHealth[empty2][y] = 0;
   }
 
 }
@@ -253,100 +240,25 @@ void draw() {
 				// NOTE: To avoid errors on webpage, you can either use floor(j / 4) or (int)(j / 4) to make sure it's an integer.
 				int areaIndex = floor(j / 4);
 				image(soils[areaIndex][4], i * SOIL_SIZE, j * SOIL_SIZE);
+
+        if(soilHealth[i][j] == 0){
+          image(soilEmpty, i*GRID, j*GRID);
+        }
       }
 		}
 
     // Stone    
     // layer 1-8
-    for(int i=0; i< soilHealth.length; i++){      
-      image(stones[0][4], i*GRID, i*GRID);
-      soilHealth[i][i] = 30;
-    }
-    //for(int m=0; m< soilEmptyX.length; m++){
-    //  for(int n=0; n< soilEmptyY.length; n++){
-    //    m = floor(random(8));
-    //    n = floor(random(1,24));
-    //    image(soilEmpty, m*GRID, n*GRID);
-    //  }
-    //}
-    
-    //for(int i=0; i< soilEmptyX.length; i++){
-    //  for(int j=0; j< 24; j++){
-    //  image(soilEmpty, soilEmptyX[i]*GRID, soilEmptyY[j]*GRID);
-    //  soilHealth[i][j] =0;
-    //  }
-    //}   
-   
-     
-    // layer 9-16
-    for(int i=0; i< soilHealth.length ; i++){
-      for(int j=8; j<16 && j>7; j++){
-        if(i%4 ==1 || i%4 ==2){
-          if(j%4 ==0 || j%4 ==3){
+    for(int i=0; i< soilHealth.length; i++){ 
+      for(int j=0; j< soilHealth[i].length; j++){      
+        if(soilHealth[i][j] == 30){
           image(stones[0][4], i*GRID, j*GRID);
-          soilHealth[i][j] =30;
-          }
         }
-        if(i%4 ==0 || i%4 == 3){
-          if(j%4 ==1 || j%4 ==2){
+        if(soilHealth[i][j] == 45){
           image(stones[0][4], i*GRID, j*GRID);
-          soilHealth[i][j] =30;
-          }
-        }        
-      }
-    }
-    
-    // layer 17-24
-    for(int i=0; i< soilHealth.length; i++){
-      for(int j=16; j>15 && j<soilHealth[i].length; j++){
-        if(i%3 !=0){
-          if(j%3 ==1){
-          image(stones[0][4],i*GRID, j*GRID);
-          soilHealth[i][j] =30;
-          }
-        }
-        if(i%3 !=2){
-          if(j%3==2){
-          image(stones[0][4], i*GRID, j*GRID);
-          soilHealth[i][j] =30;
-          }
-        }
-        if(i%3 !=1){
-          if(j%3 ==0){
-          image(stones[0][4], i*GRID, j*GRID);
-          soilHealth[i][j] =30;
-          }
-        }
-        // Stone2
-        if(i%3 ==2){
-          if(j%3 ==1){
-            image(stones[1][4], i*GRID, j*GRID);
-            soilHealth[i][j] =45;
-          }
-        }
-        if(i%3 ==1){
-          if(j%3 ==2){
           image(stones[1][4], i*GRID, j*GRID);
-          soilHealth[i][j] =45;
-          }
-        }
-        if(i%3 ==0){
-          if(j%3 ==0){
-          image(stones[1][4], i*GRID, j*GRID);
-          soilHealth[i][j] =45;
-          }
         }
       }
-    }
-    
-    // Empty soil    
-    for(int y=1; y<24 ;y++){
-      for(int x=0; x<= 1+(int)random(2); x++){
-        int pick = floor(random(0,8));
-     
-        //soilHealth[pick][y] =0;
-        image(soilEmpty, pick*GRID, y*GRID);
-      }  
     }
       
 		// Cabbages
@@ -443,19 +355,6 @@ void draw() {
     if(playerHealth <= 0){
       gameState = GAME_OVER;
     }
-    
-    
-    //for(int i=0; i< soldierX.length; i++){
-    //  for(int j=0; j< soldierY.length; j++){
-    //    image(soldier, soldierX[i], soldierY[j]);
-        
-    //    //if(j>=0 && j<4){
-    //    //  image(soldier, soldierX[i], soldierY[j]);
-    //    //}
-    //    //if(j>=4 && j<8) {image(soldier, soldierX[i], soldierY[j]);}
-    //    println(soldierX[i]+","+soldierY[j] );
-    //  }
-    //}
 
 		// Groundhog
 
@@ -636,6 +535,37 @@ void draw() {
 					for (int j = 0; j < soilHealth[i].length; j++) {
 						 // 0: no soil, 15: soil only, 30: 1 stone, 45: 2 stones
 						soilHealth[i][j] = 15;
+            
+            // lay 1~8
+            if(j>=0 && j<8){
+              if(i == j) soilHealth[i][j] = 30;
+            }
+            
+            // lay 9~16
+            if(j>=8 && j<16){
+              if((j%4==0 || j%4==3) && (i%4==1 || i%4==2))
+                soilHealth[i][j] = 30;
+              if((j%4==1 || j%4==2) && (i%4==0 || i%4==3))
+                soilHealth[i][j] = 30;
+            }
+            
+            // lay 17~24
+            if (j>=16 && j<24){
+              if(j%3 == 1){
+                if(i%3 != 0) soilHealth[i][j] = 30;
+                if(i%3 == 2) soilHealth[i][j] = 45;
+              }
+              if(j%3 == 2){
+                if(i%3 != 2) soilHealth[i][j] = 30;
+                if(i%3 == 1) soilHealth[i][j] = 45;
+              }
+                
+              if(j%3 == 0){
+                if(i%3 != 1) soilHealth[i][j] = 30;
+                if(i%3 == 0) soilHealth[i][j] = 45;
+              }
+            }
+
 					}
 				}
 
@@ -655,9 +585,20 @@ void draw() {
         soldier6Y = floor(random(20,24))*SOIL_SIZE;
 
 				// Initialize cabbages and their position
-        for(int i=0; i< CABBAGE_Q; i++){          
-          cabbageX [i] = (int) random(0,8)*GRID;
-          cabbageY [i] = (int) (Math.random()*24)*GRID;
+        for(int i=0; i< CABBAGE_Q; i++){
+          for(int j=0; j<= 1+floor(random(1)); j++){ // 1 layer get 1 cabbage
+            int pick = (int)random(4) + i*4; // every kind of soil(4 layers = 1 area) get 1 cabbage
+            cabbageX [i] = (int) random(0,8)*GRID;
+            cabbageY [i] = pick*GRID;
+          }  
+        }
+        
+        // Initialize soilEmpty
+        for(int y=1; y<24; y++){
+          int empty1 = (int)random(8);
+          int empty2 = (int)random(8);
+          soilHealth[empty1][y] = 0;
+          soilHealth[empty2][y] = 0;
         }
         				
 			}
