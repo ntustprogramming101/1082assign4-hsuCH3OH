@@ -233,20 +233,6 @@ void draw() {
 
 		// Soil
 
-		//for(int i = 0; i < soilHealth.length; i++){
-		//	for (int j = 0; j < soilHealth[i].length; j++) {
-
-		//		// Change this part to show soil and stone images based on soilHealth value
-		//		// NOTE: To avoid errors on webpage, you can either use floor(j / 4) or (int)(j / 4) to make sure it's an integer.
-		//		int areaIndex = floor(j / 4);
-		//		image(soils[areaIndex][4], i * SOIL_SIZE, j * SOIL_SIZE);
-
-  //      if(soilHealth[i][j] == 0){
-  //        image(soilEmpty, i*GRID, j*GRID);
-  //      }
-  //    }
-		//}
-
     for(int i = 0; i < SOIL_COL_COUNT; i++){
       for(int j = 0; j < SOIL_ROW_COUNT; j++){
         if(soilHealth[i][j] > 0){
@@ -402,7 +388,6 @@ void draw() {
     }
 
 		// Groundhog
-
 		PImage groundhogDisplay = groundhogIdle;
 
 		// If player is not moving, we have to decide what player has to do next
@@ -482,9 +467,6 @@ void draw() {
 					// For requirement #3:
 					// Note that player never needs to move down as it will always fall automatically,
 					// so the following 2 lines can be removed once you finish requirement #3
-
-					//playerMoveDirection = DOWN;
-					//playerMoveTimer = playerMoveDuration;
           soilHealth[playerCol][playerRow + 1] --;
 
 				}
@@ -543,11 +525,6 @@ void draw() {
 		}
 
 		image(groundhogDisplay, playerX, playerY);
-
-		// Soldiers
-		// > Remember to stop player's moving! (reset playerMoveTimer)
-		// > Remember to recalculate playerCol/playerRow when you reset playerX/playerY!
-		// > Remember to reset the soil under player's original position!
 
 		// Demo mode: Show the value of soilHealth on each soil
 		// (DO NOT CHANGE THE CODE HERE!)
